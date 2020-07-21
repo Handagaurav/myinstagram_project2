@@ -27,29 +27,28 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   // RETURNS
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
-  /************************** */
-  app.get("/filteredimage", async (req, res) => {
-    const imageUrl = req.query.image_url;
-
-    // check imageUrl is valid
-    if (!imageUrl) {
-      return res.status(400).send({
-        message: "The image url is required or malformed"
-      });
-    }
-
-    try {
-      console;
-      const filteredImageFromURL = await filterImageFromURL(imageUrl);
-      res.sendFile(filteredImageFromURL, () =>
-        deleteLocalFiles([filteredImageFromURL])
-      );
-    } catch (error) {
-      res.sendStatus(422).send("Unable to process image at the provided url");
-    }
-  });
+  /**************************************************************************** */
 
   //! END @TODO1
+  app.get("/filteredimage", async (req, res) => {
+    let { image_url } = req.query;
+
+    //validate the image_url query
+    if (image_url.match(/\.(jpeg|jpg|gif|png)$/) == null) {
+        return res.status(400).send({ message: 'Only image are allowed' });
+    }
+    //call filterImageFromURL(image_url) to filter the image
+    filterImageFromURL(image_url).then((res_content) => {
+      //send the resulting file in the response
+      res.status(200).sendFile(res_content);
+      //deletes any files on the server on finish of the response
+      res.on('finish', function () {
+        deleteLocalFiles([res_content]);
+      })
+    });
+    
+  });
+
   
   // Root Endpoint
   // Displays a simple message to the user
@@ -63,4 +62,4 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       console.log( `server running http://localhost:${ port }` );
       console.log( `press CTRL+C to stop server` );
   } );
-})()
+})();

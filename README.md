@@ -3,7 +3,9 @@
 This is the second assignment from the Udacity cloud developer nanodegree course. It's a Node-Express application which runs a simple script to process images, and is deployed using AWS Elastic Beanstalk.
 
 Testing the image filter endpoint
-Base url: myinstagram-project2-dev.us-east-2.elasticbeanstalk.com
+Github master branch: https://github.com/Handagaurav/myinstagram_project2/tree/master
+Github development branch: https://github.com/Handagaurav/myinstagram_project2/tree/myinstagram-dev	
+Base url: http://myinstagram-project2-dev.us-east-2.elasticbeanstalk.com/
 Query key: image_url
 Query value: An image's url
 Example of my image hosted on S3 bucket used as a Query value: http://myinstagram-project2-dev.us-east-2.elasticbeanstalk.com/filteredimage?image_url=https://elasticbeanstalk-us-east-2-078362498769.s3.us-east-2.amazonaws.com/NEU.jpg
